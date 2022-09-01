@@ -16,7 +16,7 @@ const displayPhoto = (photos) => {
         photoDiv.classList.add('col');
         photoDiv.innerHTML = `
         
-        <div class="card">
+        <div class="card" onclick="photoDetails(${photos[i].id})">
         <img src="${photos[i].thumbnailUrl}" class="card-img-top" alt="...">
         <div class="card-body">
             <h5 class="card-title">${photos[i].title}</h5>
@@ -29,5 +29,27 @@ const displayPhoto = (photos) => {
 
 }
 
+const photoDetails = async(phoneID) => {
+    url = `https://jsonplaceholder.typicode.com/photos/${phoneID}`;
+    const rest = await fetch(url);
+    const data = await rest.json();
+    displayPhotoDetails(data);
+}
+const displayPhotoDetails = (photoID) => {
+    const photoContainer = document.getElementById('photoDetailcard');
+    const photoDiv = document.createElement('div');
+    console.log(photoContainer);
+    photoDiv.innerHTML = `
+        
+        <div class="card">
+        <img src="${photoID.thumbnailUrl}" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">${photoID.title}</h5>
+            <a href="${photoID.url}">See The Details</a>
+        </div>
+    </div>
+        `
+    photoContainer.appendChild(photoDiv);
 
+}
 loadPhot();
